@@ -1,33 +1,65 @@
-# FlowGuard 
+# Rate Limiter Service (FlowGuard)
 
-FlowGuard is a backend **API Rate Limiting Service** that enforces per-user request limits using a **sliding window algorithm**.
+A backend **Rate Limiting Service** built using **FastAPI** that enforces per-user request limits using a **Sliding Window** algorithm.
 
-## Features
-- Per-user rate limiting (4 requests per 60 seconds)
-- Sliding window algorithm for accurate time-based limiting
-- HTTP 429 responses when limits are exceeded
-- Status endpoint to inspect usage and reset time
-- Clean separation between API layer and core logic
+This project demonstrates core **backend system design concepts** such as request throttling, in-memory data structures, and API-level protection.
 
-## Tech Stack
-- Python
-- FastAPI
-- Uvicorn
+---
 
-## How It Works
-For each user, FlowGuard tracks timestamps of recent requests.
-On every request:
-1. Old timestamps outside the time window are removed
-2. Remaining requests are counted
-3. If the limit is exceeded, the request is rejected
+## 🚀 Features
 
-## API Endpoints
+- Per-user rate limiting
+- Sliding window algorithm (time-based)
+- FastAPI middleware-style integration
+- Clear separation of logic (limiter vs API)
+- Deterministic behavior with timestamps
+- HTTP 429 response on limit breach
 
-### POST `/request`
-Checks whether a request is allowed.
+---
 
-Request body:
-```json
-{
-  "user_id": "kapil"
-}
+## 🧠 How It Works (Sliding Window)
+
+For each user:
+- Maintain a list of request timestamps
+- On every request:
+  1. Remove timestamps older than the time window
+  2. Check remaining count
+  3. Allow or block the request
+
+Example:
+- Limit: **4 requests per 60 seconds**
+- Only timestamps inside the last 60 seconds are counted
+
+---
+
+## 🛠 Tech Stack
+
+- **Python**
+- **FastAPI**
+- **Uvicorn**
+
+---
+
+## 📂 Project Structure
+
+- rate-limiter/ 
+    - main.py # FastAPI app and routes
+    - limiter.py # Sliding window rate limiting logic
+    - requirements.txt
+    - README.md
+
+
+---
+
+## ▶️ How to Run Locally
+
+```bash
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate   # Mac/Linux
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run server
+uvicorn main:app --reload
