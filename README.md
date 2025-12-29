@@ -1,4 +1,4 @@
-# Rate Limiter Service (FlowGuard)
+# Rate Limiter Service (Sliding Window Algorithm)
 
 A backend **Rate Limiting Service** built using **FastAPI** that enforces per-user request limits using a **Sliding Window** algorithm.
 
